@@ -9,7 +9,7 @@
     "dependencies": {
         "next": "^15.5.14",
         "next-auth": "^4.24.11",
-        "nodemailer": "^6.10.1",
+        "nodemailer": "^8.0.4",
         "openai": "^4.0.0",
         "raw-body": "^3.0.2",
         "react": "latest",
