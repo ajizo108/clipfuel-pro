@@ -1,8 +1,4 @@
 import { getToken } from "next-auth/jwt";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = global.prisma || new PrismaClient();
-if (!global.prisma) global.prisma = prisma;
 
 export default async function handler(req, res) {
   try {
@@ -12,14 +8,11 @@ export default async function handler(req, res) {
       return res.status(401).json({ isPro: false });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: token.email },
-    });
-
-    console.log("DB USER:", user);
+    // TEMP: no database yet
+    console.log("USER EMAIL:", token.email);
 
     return res.status(200).json({
-      isPro: user?.isPro ?? false,
+      isPro: false,
     });
 
   } catch (err) {
