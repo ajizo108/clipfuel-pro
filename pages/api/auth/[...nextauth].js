@@ -1,19 +1,21 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export default NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
+export default function auth(req, res) {
+  return NextAuth(req, res, {
+    providers: [
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID || "",
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      }),
+    ],
 
-  secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
 
-  session: {
-    strategy: "jwt",
-  },
+    session: {
+      strategy: "jwt",
+    },
 
-  debug: true,
-});
+    debug: true,
+  });
+}
