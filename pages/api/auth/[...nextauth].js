@@ -15,20 +15,5 @@ export default NextAuth({
     strategy: "jwt",
   },
 
-  callbacks: {
-    async jwt({ token }) {
-      // simple pro flag (you can upgrade later)
-      token.isPro = token.isPro || false;
-      return token;
-    },
-
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.isPro = token.isPro || false;
-      }
-      return session;
-    },
-  },
-
   debug: true,
 });
