@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google"; // ✅ ADD THIS
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 
@@ -15,6 +16,13 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
 
   providers: [
+    // ✅ GOOGLE LOGIN (THIS FIXES YOUR ERROR)
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+
+    // ✅ KEEP EMAIL LOGIN
     EmailProvider({
       server: {
         host: "smtp.gmail.com",
@@ -36,11 +44,8 @@ export default NextAuth({
   },
 
   callbacks: {
-    // 🔥 ALWAYS SYNC WITH DATABASE
     async jwt({ token, user }) {
-      // Prefer token.email but fall back to user.email on first sign-in
       const email = token?.email || user?.email;
-
       if (!email) return token;
 
       const dbUser = await prisma.user.findUnique({ where: { email } });
@@ -56,7 +61,6 @@ export default NextAuth({
     async session({ session, token }) {
       if (!session.user) return session;
 
-      // Always read latest user state from DB to ensure session is accurate
       const email = token?.email;
 
       if (!email) {
