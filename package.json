@@ -1,0 +1,22 @@
+{
+    "name": "clipfuel-ui",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+    },
+    "dependencies": {
+        "@next-auth/prisma-adapter": "^1.0.7",
+        "@prisma/client": "^6.6.0",
+        "next": "latest",
+        "next-auth": "^4.24.11",
+        "nodemailer": "^6.10.1",
+        "openai": "^4.0.0",
+        "prisma": "^6.6.0",
+        "raw-body": "^3.0.2",
+        "react": "latest",
+        "react-dom": "latest",
+        "stripe": "^18.0.0"
+    }
+}

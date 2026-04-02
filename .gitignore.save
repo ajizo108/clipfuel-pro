@@ -1,0 +1,9 @@
+node_modules
+.next
+.env.local
+*.log
+git rm -r --cached .
+git add .
+git commit -m "🔥 Cleaned up unnecessary files"
+
+
