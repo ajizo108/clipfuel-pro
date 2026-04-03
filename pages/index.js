@@ -201,7 +201,8 @@ export default function Home() {
               marginTop: '15px',
               background: '#000',
               color: '#fff',
-              border: '1px solid #333'
+              border: '1px solid #333',
+              boxSizing: 'border-box'
             }}
           >
             <option value="titles">Titles</option>
@@ -221,7 +222,8 @@ export default function Home() {
               border: '1px solid #333',
               marginTop: '10px',
               background: '#000',
-              color: '#fff'
+              color: '#fff',
+              boxSizing: 'border-box'
             }}
           />
 
