@@ -1,7 +1,6 @@
-console.log("DEPLOY TEST");
 import { useState, useEffect } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import Head from 'next/head' // ✅ ADDED
+import Head from 'next/head'
 
 export default function Home() {
   const [topic, setTopic] = useState('')
@@ -123,7 +122,6 @@ export default function Home() {
 
   return (
     <>
-      {/* ✅ ADDED GOOGLE + SEO */}
       <Head>
         <title>ClipFuel – AI Viral Content Generator</title>
         <meta name="description" content="ClipFuel helps creators generate viral titles, hooks, captions, and scripts instantly." />
