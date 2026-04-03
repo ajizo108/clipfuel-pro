@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import Head from 'next/head' // ✅ ADDED
 
 export default function Home() {
   const [topic, setTopic] = useState('')
@@ -11,7 +12,6 @@ export default function Home() {
 
   const { data: session, status } = useSession()
 
-  // ✅ FIXED: now checks Stripe instead of /api/user
   const fetchUser = async () => {
     try {
       const res = await fetch('/api/check-pro', {
@@ -121,184 +121,193 @@ export default function Home() {
   if (status === "loading") return null
 
   return (
-    <div style={{
-      background: 'radial-gradient(circle at top, #1a0a00, #000)',
-      color: '#fff',
-      minHeight: '100vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
+    <>
+      {/* ✅ ADDED GOOGLE + SEO */}
+      <Head>
+        <title>ClipFuel – AI Viral Content Generator</title>
+        <meta name="description" content="ClipFuel helps creators generate viral titles, hooks, captions, and scripts instantly." />
+        <meta name="google-site-verification" content="wRbFRQEKqPidi6gvBxNd1GpJ0JdRKmhDrG8e4rxf1As" />
+      </Head>
 
       <div style={{
-        width: '100%',
-        maxWidth: '520px',
-        padding: '35px',
-        borderRadius: '22px',
-        background: '#0d0d0d',
-        boxShadow: '0 0 60px rgba(255,100,0,0.2)',
-        textAlign: 'center',
-        border: '1px solid rgba(255,100,0,0.15)'
+        background: 'radial-gradient(circle at top, #1a0a00, #000)',
+        color: '#fff',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
 
-        <div style={{ marginBottom: 10 }}>
-          {session ? (
-            <button onClick={() => signOut()} style={{ opacity: 0.7 }}>
-              Sign out ({session.user.email})
-            </button>
-          ) : (
-            <button onClick={() => signIn()}>
-              Sign In 🔐
-            </button>
-          )}
-        </div>
-
-        <img src="/clipfuel-logo.png" style={{ width: 80, marginBottom: 10 }} />
-
-        <h1 style={{
-          fontSize: '2.2rem',
-          marginBottom: 5,
-          fontWeight: 'bold',
-          textShadow: '0 0 15px rgba(255,100,0,0.5)'
+        <div style={{
+          width: '100%',
+          maxWidth: '520px',
+          padding: '35px',
+          borderRadius: '22px',
+          background: '#0d0d0d',
+          boxShadow: '0 0 60px rgba(255,100,0,0.2)',
+          textAlign: 'center',
+          border: '1px solid rgba(255,100,0,0.15)'
         }}>
-          Go Viral On Demand 🚀
-        </h1>
 
-        <p style={{ opacity: 0.6, fontSize: 14 }}>
-          Turn ideas into viral content instantly
-        </p>
-
-        {isPro && (
-          <div style={{
-            marginTop: 10,
-            marginBottom: 10,
-            color: '#ff7a18',
-            fontWeight: 'bold'
-          }}>
-            🚀 PRO UNLOCKED
+          <div style={{ marginBottom: 10 }}>
+            {session ? (
+              <button onClick={() => signOut()} style={{ opacity: 0.7 }}>
+                Sign out ({session.user.email})
+              </button>
+            ) : (
+              <button onClick={() => signIn()}>
+                Sign In 🔐
+              </button>
+            )}
           </div>
-        )}
 
-        <select
-          value={tool}
-          onChange={(e) => setTool(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '12px',
-            borderRadius: '10px',
-            marginTop: '15px',
-            background: '#000',
-            color: '#fff',
-            border: '1px solid #333'
-          }}
-        >
-          <option value="titles">Titles</option>
-          <option value="hooks">Hooks</option>
-          <option value="captions">Captions</option>
-          <option value="scripts">Scripts</option>
-        </select>
+          <img src="/clipfuel-logo.png" style={{ width: 80, marginBottom: 10 }} />
 
-        <input
-          placeholder="Enter your idea..."
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '14px',
-            borderRadius: '12px',
-            border: '1px solid #333',
-            marginTop: '10px',
-            background: '#000',
-            color: '#fff'
-          }}
-        />
-
-        <button
-          onClick={generate}
-          style={{
-            width: '100%',
-            padding: '14px',
-            borderRadius: '999px',
-            marginTop: '15px',
-            background: 'linear-gradient(90deg,#ff7a18,#ff3c00)',
-            border: 'none',
+          <h1 style={{
+            fontSize: '2.2rem',
+            marginBottom: 5,
             fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 0 25px rgba(255,100,0,0.4)'
-          }}
-        >
-          {loading ? 'Cooking something viral...' : 'Generate 🔥'}
-        </button>
-
-        {loading && (
-          <p style={{ marginTop: 10, color: '#ff7a18' }}>
-            Generating viral content...
-          </p>
-        )}
-
-        {!isPro && (
-          <>
-            <p style={{ marginTop: 10, opacity: 0.6 }}>
-              {Math.max(0, 3 - generationCount)} free generations left
-            </p>
-
-            <button
-              onClick={handleUpgrade}
-              style={{
-                marginTop: 10,
-                width: '100%',
-                padding: '12px',
-                borderRadius: '999px',
-                background: '#ff3c00',
-                border: 'none',
-                color: '#fff',
-                fontWeight: 'bold'
-              }}
-            >
-              Unlock Pro 🚀
-            </button>
-          </>
-        )}
-
-        {result && (
-          <div style={{
-            marginTop: 20,
-            padding: '18px',
-            borderRadius: '14px',
-            background: '#000',
-            border: '1px solid rgba(255,100,0,0.2)',
-            textAlign: 'left',
-            whiteSpace: 'pre-wrap'
+            textShadow: '0 0 15px rgba(255,100,0,0.5)'
           }}>
-            <p style={{ color: '#ff7a18', marginBottom: 10 }}>
-              🔥 Generated for you:
+            Go Viral On Demand 🚀
+          </h1>
+
+          <p style={{ opacity: 0.6, fontSize: 14 }}>
+            Turn ideas into viral content instantly
+          </p>
+
+          {isPro && (
+            <div style={{
+              marginTop: 10,
+              marginBottom: 10,
+              color: '#ff7a18',
+              fontWeight: 'bold'
+            }}>
+              🚀 PRO UNLOCKED
+            </div>
+          )}
+
+          <select
+            value={tool}
+            onChange={(e) => setTool(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px',
+              borderRadius: '10px',
+              marginTop: '15px',
+              background: '#000',
+              color: '#fff',
+              border: '1px solid #333'
+            }}
+          >
+            <option value="titles">Titles</option>
+            <option value="hooks">Hooks</option>
+            <option value="captions">Captions</option>
+            <option value="scripts">Scripts</option>
+          </select>
+
+          <input
+            placeholder="Enter your idea..."
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '14px',
+              borderRadius: '12px',
+              border: '1px solid #333',
+              marginTop: '10px',
+              background: '#000',
+              color: '#fff'
+            }}
+          />
+
+          <button
+            onClick={generate}
+            style={{
+              width: '100%',
+              padding: '14px',
+              borderRadius: '999px',
+              marginTop: '15px',
+              background: 'linear-gradient(90deg,#ff7a18,#ff3c00)',
+              border: 'none',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              boxShadow: '0 0 25px rgba(255,100,0,0.4)'
+            }}
+          >
+            {loading ? 'Cooking something viral...' : 'Generate 🔥'}
+          </button>
+
+          {loading && (
+            <p style={{ marginTop: 10, color: '#ff7a18' }}>
+              Generating viral content...
             </p>
+          )}
 
-            {result}
+          {!isPro && (
+            <>
+              <p style={{ marginTop: 10, opacity: 0.6 }}>
+                {Math.max(0, 3 - generationCount)} free generations left
+              </p>
 
-            <button
-              onClick={() => navigator.clipboard.writeText(result)}
-              style={{
-                marginTop: 10,
-                padding: '8px 12px',
-                borderRadius: '8px',
-                background: '#111',
-                border: '1px solid #333',
-                color: '#fff',
-                cursor: 'pointer'
-              }}
-            >
-              Copy ✂️
-            </button>
+              <button
+                onClick={handleUpgrade}
+                style={{
+                  marginTop: 10,
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '999px',
+                  background: '#ff3c00',
+                  border: 'none',
+                  color: '#fff',
+                  fontWeight: 'bold'
+                }}
+              >
+                Unlock Pro 🚀
+              </button>
+            </>
+          )}
 
-            <p style={{ marginTop: 10, opacity: 0.6 }}>
-              Not good enough? Generate again 🔥
-            </p>
+          {result && (
+            <div style={{
+              marginTop: 20,
+              padding: '18px',
+              borderRadius: '14px',
+              background: '#000',
+              border: '1px solid rgba(255,100,0,0.2)',
+              textAlign: 'left',
+              whiteSpace: 'pre-wrap'
+            }}>
+              <p style={{ color: '#ff7a18', marginBottom: 10 }}>
+                🔥 Generated for you:
+              </p>
 
-          </div>
-        )}
+              {result}
 
+              <button
+                onClick={() => navigator.clipboard.writeText(result)}
+                style={{
+                  marginTop: 10,
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  background: '#111',
+                  border: '1px solid #333',
+                  color: '#fff',
+                  cursor: 'pointer'
+                }}
+              >
+                Copy ✂️
+              </button>
+
+              <p style={{ marginTop: 10, opacity: 0.6 }}>
+                Not good enough? Generate again 🔥
+              </p>
+
+            </div>
+          )}
+
+        </div>
       </div>
-    </div>
+    </>
   )
 }
