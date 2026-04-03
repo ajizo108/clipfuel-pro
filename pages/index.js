@@ -124,7 +124,7 @@ export default function Home() {
     <>
       <Head>
         <title>ClipFuel – AI Viral Content Generator</title>
-        <meta name="description" content="ClipFuel helps creators generate viral titles, hooks, captions, and scripts instantly." />
+        <meta name="description" content="Generate viral titles, hooks, captions & scripts instantly with ClipFuel AI." />
         <meta name="google-site-verification" content="wRbFRQEKqPidi6gvBxNd1GpJ0JdRKmhDrG8e4rxf1As" />
       </Head>
 
@@ -163,16 +163,21 @@ export default function Home() {
           <img src="/clipfuel-logo.png" style={{ width: 80, marginBottom: 10 }} />
 
           <h1 style={{
-            fontSize: '2.2rem',
-            marginBottom: 5,
+            fontSize: '2.3rem',
+            marginBottom: 8,
             fontWeight: 'bold',
-            textShadow: '0 0 15px rgba(255,100,0,0.5)'
+            textShadow: '0 0 15px rgba(255,100,0,0.5)',
+            lineHeight: '1.2'
           }}>
-            Go Viral On Demand 🚀
+            Generate Viral Content In Seconds 🚀
           </h1>
 
-          <p style={{ opacity: 0.6, fontSize: 14 }}>
-            Turn ideas into viral content instantly
+          <p style={{ opacity: 0.75, fontSize: 14 }}>
+            Titles, hooks, captions & scripts that actually go viral
+          </p>
+
+          <p style={{ opacity: 0.5, fontSize: 12, marginBottom: 10 }}>
+            Built for creators who want views, not guesses
           </p>
 
           {isPro && (
@@ -182,7 +187,7 @@ export default function Home() {
               color: '#ff7a18',
               fontWeight: 'bold'
             }}>
-              🚀 PRO UNLOCKED
+              💎 PRO UNLOCKED
             </div>
           )}
 
@@ -245,8 +250,8 @@ export default function Home() {
 
           {!isPro && (
             <>
-              <p style={{ marginTop: 10, opacity: 0.6 }}>
-                {Math.max(0, 3 - generationCount)} free generations left
+              <p style={{ marginTop: 10, opacity: 0.7 }}>
+                Only {Math.max(0, 3 - generationCount)} free tries left 🔒
               </p>
 
               <button
@@ -262,7 +267,7 @@ export default function Home() {
                   fontWeight: 'bold'
                 }}
               >
-                Unlock Pro 🚀
+                Unlock Unlimited Generations – $4.99/mo 🚀
               </button>
             </>
           )}
