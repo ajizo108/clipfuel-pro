@@ -11,9 +11,14 @@ export default function Home() {
 
   const { data: session, status } = useSession()
 
+  // ✅ FIXED: now checks Stripe instead of /api/user
   const fetchUser = async () => {
     try {
-      const res = await fetch('/api/user')
+      const res = await fetch('/api/check-pro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: session.user.email }),
+      })
       const data = await res.json()
       setIsPro(data.isPro)
     } catch {
@@ -136,7 +141,6 @@ export default function Home() {
         border: '1px solid rgba(255,100,0,0.15)'
       }}>
 
-        {/* AUTH */}
         <div style={{ marginBottom: 10 }}>
           {session ? (
             <button onClick={() => signOut()} style={{ opacity: 0.7 }}>
@@ -149,10 +153,8 @@ export default function Home() {
           )}
         </div>
 
-        {/* LOGO */}
         <img src="/clipfuel-logo.png" style={{ width: 80, marginBottom: 10 }} />
 
-        {/* TITLE */}
         <h1 style={{
           fontSize: '2.2rem',
           marginBottom: 5,
@@ -162,12 +164,10 @@ export default function Home() {
           Go Viral On Demand 🚀
         </h1>
 
-        {/* 🔥 UPDATED TAGLINE */}
         <p style={{ opacity: 0.6, fontSize: 14 }}>
           Turn ideas into viral content instantly
         </p>
 
-        {/* PRO BADGE */}
         {isPro && (
           <div style={{
             marginTop: 10,
@@ -179,7 +179,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* TOOL SELECT */}
         <select
           value={tool}
           onChange={(e) => setTool(e.target.value)}
@@ -199,7 +198,6 @@ export default function Home() {
           <option value="scripts">Scripts</option>
         </select>
 
-        {/* INPUT */}
         <input
           placeholder="Enter your idea..."
           value={topic}
@@ -215,7 +213,6 @@ export default function Home() {
           }}
         />
 
-        {/* BUTTON */}
         <button
           onClick={generate}
           style={{
@@ -233,14 +230,12 @@ export default function Home() {
           {loading ? 'Cooking something viral...' : 'Generate 🔥'}
         </button>
 
-        {/* 🔥 LOADING FEEDBACK */}
         {loading && (
           <p style={{ marginTop: 10, color: '#ff7a18' }}>
             Generating viral content...
           </p>
         )}
 
-        {/* FREE LIMIT + UPGRADE */}
         {!isPro && (
           <>
             <p style={{ marginTop: 10, opacity: 0.6 }}>
@@ -265,7 +260,6 @@ export default function Home() {
           </>
         )}
 
-        {/* RESULT */}
         {result && (
           <div style={{
             marginTop: 20,
@@ -282,7 +276,6 @@ export default function Home() {
 
             {result}
 
-            {/* 🔥 COPY BUTTON */}
             <button
               onClick={() => navigator.clipboard.writeText(result)}
               style={{
@@ -298,7 +291,6 @@ export default function Home() {
               Copy ✂️
             </button>
 
-            {/* 🔥 LOOP TEXT */}
             <p style={{ marginTop: 10, opacity: 0.6 }}>
               Not good enough? Generate again 🔥
             </p>
